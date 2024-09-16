@@ -13,13 +13,15 @@ import { AppComponent } from './app.component';
 import { MovieFormComponent } from './components/movie-form/movie-form.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListMoviesComponent } from './components/list-movies/list-movies.component';
+import { InfoComponent } from './components/info/info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieFormComponent,
     NavbarComponent,
-    ListMoviesComponent
+    ListMoviesComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
