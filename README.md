@@ -19,4 +19,23 @@ Este proyecto es una plataforma de gestión de películas desarrollada con Angul
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/tu-repositorio/movie-platform-frond.git
+   git clone https://github.com/EdwinMarulandaB/MoviePlatformFROND.git
+## Dependencias principales
+- Angular ^15.2.0
+- Bootstrap ^5.3.3
+- FontAwesome ^6.6.0
+- RxJS ~7.8.0
+
+## Notas
+En la carpeta ubicada en src/app/services el archivo movie.service.ts esta es la estructura para hacer la conexion a la api.
+
+private myAppUrl: string; // URL base de la aplicación
+  private myApiUrl: string; // URL del endpoint de la API
+
+  constructor(private http: HttpClient) {
+    // Inicialización de las URLs para las solicitudes HTTP
+    this.myAppUrl = 'http://localhost:8080/';
+    this.myApiUrl = 'api/movies';
+  }
+
+Se debe cambiar en caso de que el backed se ejecute en otro puerto.
