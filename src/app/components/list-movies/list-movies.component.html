@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="title">
+    <h4>Catalogo de Peliculas</h4>
+    <button
+      *ngIf="mode === 'admin'"
+      type="button"
+      class="btn btn-primary"
+      routerLink="/add"
+    >
+      Crear Pelicular
+    </button>
+  </div>
+
+
+  <div>
+    <div class="col-md-10 d-flex justify-content-start">
+      <div class="d-flex align-items-center">
+        <!-- Selector de Ordenación -->
+        <select class="form-select me-2 mb-2" name="sortOptions" (change)="onSortChange($event)">
+          <option value="0">Por defecto</option>
+          <option value="1">Mayor puntaje</option>
+          <option value="2">Última entrada</option>
+        </select>
+
+        <!-- Selector de Dirección de Ordenación -->
+        <select class="form-select me-2 mb-2" name="sortDirection" (change)="onSortDirectionChange($event)">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+
+        <!-- Campo de Búsqueda -->
+        <div class="input-group mb-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Título"
+            aria-label="Título"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchChange()"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col" *ngFor="let movie of movies">
+      <div class="card shadow-sm" style="height: 100%">
+        <div class="image-container">
+          <img
+            src="{{ movie.image }}"
+            class="card-img"
+            alt="{{ movie.name }}"
+          />
+        </div>
+
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <h6>{{ movie.name }}</h6>
+            <p *ngIf="mode == 'admin'">
+              Estado: {{ movie.status == 1 ? "Publicada" : "Edición" }}
+            </p>
+          </div>
+          <p class="card-text">
+            {{ movie.description }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-body-secondary"
+              >Puntuacion: {{ movie.score }}</small
+            >
+            <div class="btn-group" *ngIf="mode == 'admin'">
+              <button
+                type="button"
+                class="btn btn-sm btn-success rounded-button"
+                routerLink="edit/{{movie.movieid}}"
+                >
+                <i class="fa-solid fa-pencil-alt"></i>
+              </button>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                (click)="setMovieId(movie.movieid)"
+                type="button"
+                class="btn btn-sm btn-danger rounded-button"
+              >
+                <i class="fa-solid fa-minus-circle"></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-content-between align-items-center"
+            *ngIf="mode == 'admin'"
+          >
+            <small class="text-body-secondary"
+              >Fecha Creacion <br />
+              {{ movie.createdAt | date : "yyyy-MM-dd hh:mm:ss" }}</small
+            >
+            <small class="text-body-secondary"
+              >Ultima Actualización <br />
+              {{ movie.updatedAt | date : "yyyy-MM-dd hh:mm:ss" }}</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Borrar película</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible, ¿Desea eliminarla?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <!-- Botón para confirmar la eliminación -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="deleteMovie()"
+          data-bs-dismiss="modal"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-primary mb-3" style="height: 100%;">
+        <div class="card-header text-center">Agregar Película</div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name" style="margin: 5px 5px 5px 0px;">Título</label>
+              <input
+                id="name"
+                formControlName="name"
+                class="form-control"
+                placeholder="Ingrese el título de la película"
+              />
+              <div *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched" class="text-danger">
+                El título es requerido.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="image" style="margin: 5px 5px 5px 0px;">Imagen</label>
+              <input
+                id="image"
+                formControlName="image"
+                class="form-control"
+                placeholder="URL de la imagen de la película"
+              />
+            </div>
+            <div class="form-group">
+              <label for="description" style="margin: 5px 5px 5px 0px;">Descripción</label>
+              <textarea
+                id="description"
+                formControlName="description"
+                class="form-control"
+                placeholder="Agregue una breve descripción">
+              </textarea>
+            </div>
+            <div class="form-group">
+              <label for="score" style="margin: 5px 5px 5px 0px;">Puntaje</label>
+              <input
+                id="score"
+                type="number"
+                formControlName="score"
+                class="form-control"
+                placeholder="Ingrese el puntaje (1-10)"
+              />
+            </div>
+            <div class="form-group">
+              <label for="status" style="margin: 5px 5px 5px 0px;">Estado</label>
+              <select id="status" formControlName="status" class="form-control">
+                <option value="1">Publicada</option>
+                <option value="2">Edición</option>
+              </select>
+            </div>
+             <!-- Campo oculto para el movieid -->
+             <input
+             type="hidden"
+             formControlName="movieid"
+           />
+            <div class="d-flex justify-content-center mt-3">
+              <button type="submit" [disabled]="form.invalid" class="btn btn-primary mx-2">Aceptar</button>
+              <button type="button" class="btn btn-danger mx-2" routerLink="/">Volver</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta de previsualización -->
+    <div class="col-md-6" *ngIf="form.valid">
+      <div class="card border-secondary" style="height: 100%;">
+        <div class="image-container">
+          <img
+            *ngIf="form.get('image')?.value"
+            [src]="form.get('image')?.value"
+            class="card-img-top"
+            alt="{{ form.get('name')?.value }}"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ form.get('name')?.value || 'Título de la Película' }}</h5>
+          <p class="card-text">{{ form.get('description')?.value || 'Descripción de la película' }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-body-secondary">Puntuación: {{ form.get('score')?.value || '0' }}</small>
+            <small class="text-body-secondary">
+              Estado: {{ form.get('status')?.value == '1' ? 'Publicada' : 'Edición' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
